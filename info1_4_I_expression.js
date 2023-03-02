@@ -23,6 +23,7 @@ rl.on("line", (line) => {
 rl.on("close", () => {
   let a = parseInt(lines[0]);
   let b = parseInt(lines[1]);
-  let result = a - (a / b) * b;
+  let c = parseInt(a / b);
+  let result = a - c * b;
   console.log(result);
 });
