@@ -1,5 +1,5 @@
 console.log("message = ?");
-let lines = new Array();
+/*let lines = new Array();
 let re = /[\n\s]/;
 const readline = require("readline");
 const rl = readline.createInterface({
@@ -101,3 +101,40 @@ rl.on("close", () => {
     `a : ${a}\nb : ${b}\nc : ${c}\nd : ${d}\ne : ${e}\nf : ${f}\ng : ${g}\nh : ${h}\ni : ${i}\nj : ${j}\nk : ${k}\nl : ${l}\nm : ${m}\nn : ${n}\no : ${o}\np : ${p}\nq : ${q}\nr : ${r}\ns : ${s}\nt : ${t}\nu : ${u}\nv : ${v}\nw : ${w}\nx : ${x}\ny : ${y}\nz : ${z}`
   );
 });
+*/
+
+let lines = new Array();
+let readline = require("readline");
+let rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+const codeA = "a".charCodeAt(0);
+const codeZ = "z".charCodeAt(0);
+const chars = [...Array(codeZ - codeA + 1).keys()].map((x) =>
+  String.fromCharCode(x + codeA)
+);
+rl.on("line", (line) => {
+  lines.push(line);
+});
+rl.on("close", () => {
+  let inputValue = lines.join("\n");
+  let quantity = countLetter(inputValue);
+  for (let chr of chars) {
+    console.log(chr + " : " + quantity[chr]);
+  }
+});
+const countLetter = (message) => {
+  let searchRegulation = /[a-z]/;
+  let chrObject = {};
+  for (let chr of chars) {
+    chrObject[chr] = 0;
+  }
+  for (let i = 0; i < message.length; i++) {
+    let lowerChr = message[i].toLowerCase();
+    if (searchRegulation.test(lowerChr)) {
+      chrObject[lowerChr] += 1;
+    }
+  }
+  return chrObject;
+};

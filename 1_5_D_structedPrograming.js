@@ -1,4 +1,7 @@
 /*
+次のC++言語のプログラムと同じ動作をするプログラムを作成してください。
+ただし、goto 文は使わないで実装してみましょう。
+
 void call(int n){
   int i = 1;
  CHECK_NUM:
@@ -22,20 +25,37 @@ void call(int n){
 */
 
 console.log("num = ?");
+let lines = new Array();
 const readline = require("readline");
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 rl.on("line", (line) => {
-  let x = i;
-  for (let i = 1; i <= line; i++) {
-    if (x % 3 === 0) {
-      console.log(` ${i}`);
-    } else if (x % 10 === 3) {
-      console.log(` ${i}`);
-    }
-
-    console.log("\n");
-  }
+  lines.push(line);
 });
+rl.on("close", () => {
+  let re = /\s+|$/;
+  let inputValue = lines[0].trim().split(re).map(Number);
+  let n = inputValue[0];
+  checkNum(n);
+});
+
+const checkNum = (n) => {
+  let ans = "";
+  for (let i = 1; i <= n; i++) {
+    let x = i;
+    if (x % 3 === 0) {
+      ans += " " + i.toString();
+    } else {
+      while (x > 0) {
+        if (x % 10 === 3) {
+          ans += " " + i.toString();
+          break;
+        }
+        x = Math.floor(x / 10);
+      }
+    }
+  }
+  console.log(ans);
+};
