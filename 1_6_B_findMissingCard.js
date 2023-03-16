@@ -4,44 +4,50 @@
 太郎が最初に持っていたトランプはジョーカーを除く52枚のカードです。
 52枚のカードは、スペード、ハート、クラブ、ダイヤの４つの絵柄に分かれており、各絵柄には13のランクがあります。
 */
-console.log("input = ?");
+
+console.log("num & card = ??");
 let lines = new Array();
 const readline = require("readline");
 const rl = readline.createInterface({
   input: process.stdin,
-  outptu: process.stdout,
+  output: process.stdout,
 });
 rl.on("line", (line) => {
   lines.push(line);
 });
 let re = /\s+|$/;
-let cardSuit = ["S", "H", "C", "D"];
+let suit = ["S", "H", "C", "D"];
 let sequence = [...Array(14).keys()];
 sequence.shift();
 rl.on("close", () => {
-  let trumpCards = {};
-  for (let cardNum of cardSuit) {
-    trumpCards[cardNum] = [];
+  lines.shift();
+  let cards = {};
+  for (var index of suit) {
+    cards[index] = [];
   }
-  let suit,
-    num = "";
-  for (let chr of lines) {
-    [suit, num] = chr.trim().split(re);
-    trumpCards[suit].push(Number(r));
+  let cardSuit, cardNum;
+  for (var index of lines) {
+    [cardSuit, cardNum] = index.trim().split(re);
+    cards[cardSuit].push(Number(cardNum));
   }
-  let ans = findMissingCard(trumpCards);
-  console.log(ans);
+  let result = findMissingCards(cards);
+  for (let i of suit) {
+    let missingCardNum = result[i].sort((a, b) => a - b).map(String);
+    for (let j of missingCardNum) {
+      console.log(i, j);
+    }
+  }
 });
 
-const findMissingCard = (trumpCards) => {
+const findMissingCards = (cards) => {
   let result = {};
-  for (let i of cardSuit) {
-    result[i] = [];
+  for (var index of suit) {
+    result[index] = [];
   }
-  for (let j of cardSuit) {
-    for (let k of sequence) {
-      if (trumpCards[j].indexOf(k) === -1) {
-        result[j].push(k);
+  for (let i of suit) {
+    for (let j of sequence) {
+      if (cards[i].indexOf(j) === -1) {
+        result[i].push(j);
       }
     }
   }
